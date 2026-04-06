@@ -1107,94 +1107,83 @@ footer{background:#000;border-top:1px solid rgba(201,168,76,.1);padding:2rem 2.5
   });
 
   // ── Reservation submit ──
-  var resBtn = document.getElementById('resSubmitBtn');
-  if (resBtn) {
-    resBtn.addEventListener('click', function(e) {
-      if (e) e.preventDefault();
+ var resBtn = document.getElementById('resSubmitBtn');
+if (resBtn) {
+  resBtn.addEventListener('click', function(e) {
+    if (e) e.preventDefault();
 
-      var firstName   = document.getElementById('resFirstName').value.trim()  || '';
-      var lastName    = document.getElementById('resLastName').value.trim()   || '';
-      var email       = document.getElementById('resEmail').value.trim()      || '';
-      var phone       = document.getElementById('resPhone').value.trim()      || '';
-      var date        = document.getElementById('resDate').value              || '';
-      var party       = document.getElementById('resPartySize').value         || '';
-      var dietary     = document.getElementById('resDietary').value.trim()    || '';
-      var recipient   = (document.getElementById('resRecipient') || {}).value || '';
-      var pillEl      = document.querySelector('.rpill.on');
-      var pillType    = pillEl ? pillEl.textContent.trim().toLowerCase() : 'prix-fixe';
-      var selectedExperience = (document.getElementById('resSelectedExperience') || {}).value || '';
+    var selectedExperience = (document.getElementById('resSelectedExperience') || {}).value || '';
+    var firstName  = document.getElementById('resFirstName').value.trim()  || '';
+    var lastName   = document.getElementById('resLastName').value.trim()   || '';
+    var email      = document.getElementById('resEmail').value.trim()      || '';
+    var phone      = document.getElementById('resPhone').value.trim()      || '';
+    var date       = document.getElementById('resDate').value              || '';
+    var party      = document.getElementById('resPartySize').value         || '';
+    var dietary    = document.getElementById('resDietary').value.trim()    || '';
+    var recipient  = (document.getElementById('resRecipient') || {}).value || '';
+    var pillEl     = document.querySelector('.rpill.on');
+    var pillType   = pillEl ? pillEl.textContent.trim().toLowerCase() : 'prix-fixe';
 
-      var errEl = document.getElementById('res-err');
-      if (!errEl) {
-        errEl = document.createElement('p');
-        errEl.id = 'res-err';
-        errEl.style.cssText = 'color:#c86060;font-size:.74rem;letter-spacing:.04em;margin:0 0 1rem;text-align:center;display:none;';
-        var formElForErr = document.getElementById('resForm');
-        if (formElForErr) formElForErr.insertBefore(errEl, formElForErr.firstChild);
-      }
+    var errEl = document.getElementById('res-err');
+    if (!errEl) {
+      errEl = document.createElement('p');
+      errEl.id = 'res-err';
+      errEl.style.cssText = 'color:#c86060;font-size:.74rem;letter-spacing:.04em;margin:0 0 1rem;text-align:center;display:none;';
+      var formElForErr = document.getElementById('resForm');
+      if (formElForErr) formElForErr.insertBefore(errEl, formElForErr.firstChild);
+    }
 
-      if (!selectedExperience) {
-        errEl.textContent = 'Please choose Saturday or Sunday first.';
-        errEl.style.display = 'block';
-        return;
-      }
-      if (!email) {
-        errEl.textContent = 'Please enter your email address.';
-        errEl.style.display = 'block';
-        document.getElementById('resEmail').focus();
-        return;
-      }
-      errEl.style.display = 'none';
+    if (!selectedExperience) {
+      errEl.textContent = 'Please choose Saturday or Sunday first.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!email) {
+      errEl.textContent = 'Please enter your email address.';
+      errEl.style.display = 'block';
+      document.getElementById('resEmail').focus();
+      return;
+    }
+    errEl.style.display = 'none';
 
-      var subject, body;
+    resBtn.disabled = true;
+    resBtn.textContent = 'Sending…';
 
-      if (pillType.indexOf('private') !== -1) {
-        subject = encodeURIComponent('Private Buyout Enquiry – 23rd Parallel');
-        body = encodeURIComponent(
-          'Hello,\n\nI am interested in booking a Private Buyout at 23rd Parallel.\n\n' +
-          'Chosen Evening: '  + selectedExperience + '\n' +
-          'Name: '            + firstName + ' ' + lastName + '\n' +
-          'Email: '           + email     + '\n' +
-          'Phone: '           + phone     + '\n' +
-          'Preferred Date: '  + (date || 'Flexible — please advise on availability') + '\n' +
-          'Dietary Notes: '   + (dietary || 'None') + '\n' +
-          'Profession: '      + (profession || 'Not provided') + '\n' +
-          'How they heard: '  + (referral || 'Not provided') + '\n\n' +
-          'Please get in touch to discuss availability, date, and pricing for the full table.\n\nThank you.'
-        );
-      } else if (pillType.indexOf('gift') !== -1) {
-        subject = encodeURIComponent('Gift a Dinner – 23rd Parallel');
-        body = encodeURIComponent(
-          'Hello,\n\nI would like to gift a dinner at 23rd Parallel.\n\n' +
-          'Chosen Evening: '  + selectedExperience + '\n' +
-          'Gifted by: '       + firstName + ' ' + lastName + '\n' +
-          'Email: '           + email     + '\n' +
-          'Phone: '           + phone     + '\n' +
-          'Recipient / Occasion: ' + (recipient || 'Not specified') + '\n' +
-          'Preferred Date: '  + (date || 'Flexible') + '\n' +
-          'Party Size: '      + party     + '\n' +
-          'Dietary Notes: '   + (dietary || 'None') + '\n' +
-          'Profession: '      + (profession || 'Not provided') + '\n' +
-          'How they heard: '  + (referral || 'Not provided') + '\n\n' +
-          'Please get in touch to arrange the gift confirmation and payment.\n\nThank you.'
-        );
+    fetch('https://formspree.io/f/mlgoabbn', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        firstName: firstName, lastName: lastName,
+        email: email, phone: phone, date: date,
+        partySize: party, dietary: dietary,
+        recipient: recipient, type: pillType,
+        experience: selectedExperience
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.ok) {
+        var form = document.getElementById('resForm');
+        var ok   = document.getElementById('resOk');
+        var okChoice = document.getElementById('res-ok-choice');
+        if (okChoice) okChoice.textContent = 'You have chosen ' + selectedExperience + '.';
+        if (form) form.style.display = 'none';
+        if (ok)   ok.style.display   = 'block';
       } else {
-        subject = encodeURIComponent('Reservation Request – 23rd Parallel');
-        body = encodeURIComponent(
-          'First Name: '       + firstName + '\n' +
-          'Last Name: '        + lastName  + '\n' +
-          'Email: '            + email     + '\n' +
-          'Phone: '            + phone     + '\n' +
-          'Preferred Date: '   + date      + '\n' +
-          'Chosen Evening: '   + selectedExperience + '\n' +
-          'Party Size: '       + party     + '\n' +
-          'Reservation Type: Prix-fixe Seat\n' +
-          'Dietary Notes: '    + dietary   + '\n' +
-          'Profession: '       + (profession  || 'Not provided') + '\n' +
-          'How they heard: '   + (referral   || 'Not provided') + '\n' +
-          'Food memory: '      + (foodMemory  || 'Not provided')
-        );
+        errEl.textContent = 'Something went wrong. Please email us at 23rdparallelclub@gmail.com';
+        errEl.style.display = 'block';
+        resBtn.disabled = false;
+        resBtn.textContent = 'Send Reservation Request';
       }
+    })
+    .catch(function() {
+      errEl.textContent = 'Network error. Please email us at 23rdparallelclub@gmail.com';
+      errEl.style.display = 'block';
+      resBtn.disabled = false;
+      resBtn.textContent = 'Send Reservation Request';
+    });
+  });
+}
 
       var formData = {
   firstName: firstName, lastName: lastName,
