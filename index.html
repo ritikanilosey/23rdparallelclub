@@ -1184,51 +1184,6 @@ if (resBtn) {
     });
   });
 }
-
-      var formData = {
-  firstName: firstName, lastName: lastName,
-  email: email, phone: phone, date: date,
-  partySize: party, dietary: dietary,
-  profession: profession, referral: referral,
-  foodMemory: foodMemory, recipient: recipient,
-  type: pillType, experience: selectedExperience
-};
-
-resBtn.disabled = true;
-resBtn.textContent = 'Sending…';
-
-fetch('https://formspree.io/f/mlgoabbn', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-  body: JSON.stringify(formData)
-})
-.then(function(res) { return res.json(); })
-.then(function(data) {
-  if (data.ok) {
-    var form = document.getElementById('resForm');
-    var ok   = document.getElementById('resOk');
-    var okChoice = document.getElementById('res-ok-choice');
-    if (okChoice) okChoice.textContent = 'You have chosen ' + selectedExperience + '.';
-    if (form) form.style.display = 'none';
-    if (ok)   ok.style.display   = 'block';
-  } else {
-    errEl.textContent = 'Something went wrong. Please email us at 23rdparallelclub@gmail.com';
-    errEl.style.display = 'block';
-    resBtn.disabled = false;
-    resBtn.textContent = 'Send Reservation Request';
-  }
-})
-.catch(function() {
-  errEl.textContent = 'Network error. Please email us at 23rdparallelclub@gmail.com';
-  errEl.style.display = 'block';
-  resBtn.disabled = false;
-  resBtn.textContent = 'Send Reservation Request';
-});
-
-return;
-    });
-  }
-
   // ── Contact submit ──
   var conBtn = document.getElementById('conSubmitBtn');
   if (conBtn) {
