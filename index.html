@@ -1106,23 +1106,22 @@ footer{background:#000;border-top:1px solid rgba(201,168,76,.1);padding:2rem 2.5
     }
   });
 
-  // ── Reservation submit ──
- var resBtn = document.getElementById('resSubmitBtn');
+ // ── Reservation submit ──
+var resBtn = document.getElementById('resSubmitBtn');
 if (resBtn) {
   resBtn.addEventListener('click', function(e) {
     if (e) e.preventDefault();
-
     var selectedExperience = (document.getElementById('resSelectedExperience') || {}).value || '';
-    var firstName  = document.getElementById('resFirstName').value.trim()  || '';
-    var lastName   = document.getElementById('resLastName').value.trim()   || '';
-    var email      = document.getElementById('resEmail').value.trim()      || '';
-    var phone      = document.getElementById('resPhone').value.trim()      || '';
-    var date       = document.getElementById('resDate').value              || '';
-    var party      = document.getElementById('resPartySize').value         || '';
-    var dietary    = document.getElementById('resDietary').value.trim()    || '';
-    var recipient  = (document.getElementById('resRecipient') || {}).value || '';
-    var pillEl     = document.querySelector('.rpill.on');
-    var pillType   = pillEl ? pillEl.textContent.trim().toLowerCase() : 'prix-fixe';
+    var firstName = document.getElementById('resFirstName').value.trim()  || '';
+    var lastName  = document.getElementById('resLastName').value.trim()   || '';
+    var email     = document.getElementById('resEmail').value.trim()      || '';
+    var phone     = document.getElementById('resPhone').value.trim()      || '';
+    var date      = document.getElementById('resDate').value              || '';
+    var party     = document.getElementById('resPartySize').value         || '';
+    var dietary   = document.getElementById('resDietary').value.trim()    || '';
+    var recipient = (document.getElementById('resRecipient') || {}).value || '';
+    var pillEl    = document.querySelector('.rpill.on');
+    var pillType  = pillEl ? pillEl.textContent.trim().toLowerCase() : 'prix-fixe';
 
     var errEl = document.getElementById('res-err');
     if (!errEl) {
@@ -1145,7 +1144,6 @@ if (resBtn) {
       return;
     }
     errEl.style.display = 'none';
-
     resBtn.disabled = true;
     resBtn.textContent = 'Sending…';
 
@@ -1184,6 +1182,8 @@ if (resBtn) {
     });
   });
 }
+
+// ── Contact submit ──
   // ── Contact submit ──
   var conBtn = document.getElementById('conSubmitBtn');
   if (conBtn) {
