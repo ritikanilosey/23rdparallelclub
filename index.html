@@ -1181,8 +1181,6 @@ if (resBtn) {
     });
   });
 }
-
-// ── Contact submit ──
   // ── Contact submit ──
   var conBtn = document.getElementById('conSubmitBtn');
   if (conBtn) {
@@ -1196,8 +1194,12 @@ if (resBtn) {
         'Email: '   + email   + '\n\n' +
         'Message:\n'+ message
       );
+      window.location.href = 'mailto:hello@23rdparallelclub.com?subject=' + subject + '&body=' + body;
+      var ok = document.getElementById('conOk');
+      if (ok) ok.style.display = 'block';
+      conBtn.style.display = 'none';
+    });
   }
-
 
   // ── SEAT TRACKER ─────────────────────────────────────────────
   var SEAT_API = 'https://script.google.com/macros/s/AKfycbxxwfiPkn-SfYkrFEsCofSCBuWxeHO4EiGwaueofVQFe0xuKACcfeKQRSKTd334flP2Ig/exec';
