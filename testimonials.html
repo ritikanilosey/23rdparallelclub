@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share Your Experience — 23rd Parallel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#0d4f3c; --gl:#1a6b52;
+  --gold:#c9a84c; --gold-l:#e8c97a; --gdim:rgba(201,168,76,0.2);
+  --blk:#000; --blk2:#080806;
+  --fd:"Cormorant Garamond",serif;
+  --fs:"Great Vibes",cursive;
+  --fb:"Playfair Display",serif;
+  --fbody:"Jost",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:20px;}
+body{background:var(--blk);color:#e8e0cc;font-family:var(--fb);font-weight:300;overflow-x:hidden;min-height:100vh;}
+
+/* ── TOP BANNER ── */
+.top-banner{
+  background:var(--g);text-align:center;
+  padding:.46rem 1rem;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);border-bottom:1px solid rgba(201,168,76,.22);
+  font-family:var(--fb);
+}
+
+/* ── HEADER ── */
+.site-header{
+  background:rgba(0,0,0,.97);
+  border-bottom:1px solid rgba(201,168,76,.16);
+  text-align:center;
+  padding:1.2rem 2rem;
+}
+.site-header a{text-decoration:none;display:inline-block;}
+.header-script{
+  font-family:var(--fs);font-size:2.8rem;
+  color:#e8e0cc;line-height:1;
+  text-shadow:0 0 40px rgba(201,168,76,.2);
+}
+.header-sub{
+  font-family:var(--fbody);font-size:.52rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-top:.2rem;
+}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;
+  padding:4rem 2rem 3rem;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse at center, rgba(13,79,60,.14) 0%, transparent 72%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:var(--fbody);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--gold);opacity:.75;margin-bottom:1.1rem;
+}
+.hero-title{
+  font-family:var(--fd);font-size:clamp(1.6rem,4vw,2.8rem);
+  font-style:italic;font-weight:300;color:#e8e0cc;
+  line-height:1.25;margin-bottom:.8rem;
+}
+.hero-note{
+  font-family:var(--fbody);font-size:.65rem;
+  color:rgba(232,224,204,.42);letter-spacing:.08em;line-height:1.7;
+  max-width:520px;margin:0 auto;
+}
+.orn{color:var(--gold);opacity:.5;margin:0 .5rem;}
+
+/* ── ORNAMENT DIVIDER ── */
+.odiv{
+  text-align:center;padding:.6rem 0;
+  color:rgba(201,168,76,.2);font-size:.7rem;letter-spacing:.5em;
+  margin:1rem 0;
+}
+
+/* ── FORM CARD ── */
+.form-wrap{max-width:640px;margin:0 auto;padding:0 1.4rem 5rem;}
+
+.form-card{
+  background:rgba(13,79,60,.06);
+  border:1px solid rgba(201,168,76,.15);
+  padding:2.4rem 2.2rem;
+}
+
+/* ── STEPS ── */
+.steps{display:none;}
+.steps.active{display:block;}
+
+/* ── FIELD ── */
+.fg{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem;}
+.fg label{
+  font-family:var(--fbody);font-size:.5rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(201,168,76,.65);
+}
+.fg label span{color:rgba(232,224,204,.3);font-size:.44rem;letter-spacing:.1em;text-transform:none;}
+.fg input[type="text"],.fg textarea{
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(201,168,76,.16);
+  color:#e8e0cc;
+  font-family:var(--fb);font-size:.9rem;font-weight:300;
+  padding:.72rem .9rem;outline:none;
+  transition:border-color .25s;resize:vertical;
+}
+.fg input[type="text"]:focus,.fg textarea:focus{border-color:var(--gold);}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(232,224,204,.2);}
+
+/* ── PHOTO UPLOAD ── */
+.photo-drop{
+  border:1px dashed rgba(201,168,76,.22);
+  padding:1.8rem;text-align:center;cursor:pointer;
+  transition:border-color .25s,background .25s;
+  position:relative;
+}
+.photo-drop:hover{border-color:rgba(201,168,76,.5);background:rgba(13,79,60,.07);}
+.photo-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.photo-drop-icon{font-size:1.4rem;opacity:.3;margin-bottom:.5rem;}
+.photo-drop-txt{font-family:var(--fbody);font-size:.58rem;letter-spacing:.1em;color:rgba(232,224,204,.3);}
+.photo-preview{width:100%;max-height:200px;object-fit:cover;display:none;opacity:.85;margin-top:.5rem;}
+
+/* ── BUTTONS ── */
+.btn-gold{
+  display:inline-block;
+  font-family:var(--fbody);font-size:.58rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  padding:.82rem 2rem;background:var(--gold);
+  color:var(--blk);border:none;cursor:pointer;
+  transition:background .3s;
+}
+.btn-gold:hover{background:var(--gold-l);}
+.btn-gold:disabled{opacity:.35;cursor:not-allowed;}
+.btn-outline{
+  display:inline-block;
+  font-family:var(--fbody);font-size:.56rem;font-weight:400;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.7rem 1.4rem;background:transparent;
+  border:1px solid rgba(201,168,76,.28);
+  color:rgba(232,224,204,.5);cursor:pointer;
+  transition:all .25s;
+}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+.btn-outline:disabled{opacity:.35;cursor:not-allowed;}
+
+.form-actions{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;}
+
+/* ── AI POLISH ── */
+.polish-row{display:flex;align-items:center;gap:.7rem;margin-top:.5rem;margin-bottom:1rem;}
+.polish-lbl{font-family:var(--fbody);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,224,204,.3);font-style:italic;}
+
+/* ── INSTAGRAM CARD ── */
+.ig-wrap{display:none;}
+.ig-wrap.show{display:block;}
+
+.ig-card{
+  width:100%;aspect-ratio:1/1;
+  background:var(--blk);
+  border:1px solid rgba(201,168,76,.28);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem;
+  position:relative;overflow:hidden;
+  margin-bottom:1rem;
+}
+.ig-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.16;display:none;}
+.ig-inner{position:relative;z-index:1;}
+.ig-svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:.07;pointer-events:none;
+}
+.ig-eyebrow{
+  font-family:var(--fbody);font-size:.48rem;letter-spacing:.36em;
+  text-transform:uppercase;color:var(--gold);opacity:.8;
+  margin-bottom:1.2rem;
+}
+.ig-line{width:36px;height:1px;background:var(--gold);opacity:.4;margin:0 auto 1.2rem;}
+.ig-quote{
+  font-family:var(--fd);font-size:clamp(1rem,2.4vw,1.4rem);
+  font-style:italic;font-weight:300;
+  line-height:1.6;color:#e8e0cc;margin-bottom:1.2rem;
+}
+.ig-name{font-family:var(--fbody);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);opacity:.75;}
+.ig-brand{
+  margin-top:1.5rem;
+  font-family:var(--fb);font-size:.75rem;letter-spacing:.12em;
+  color:rgba(232,224,204,.3);
+}
+
+/* ── THANK YOU ── */
+.thankyou{display:none;text-align:center;padding:3rem 1rem;}
+.thankyou.show{display:block;}
+.ty-orn{font-family:var(--fs);font-size:3rem;color:var(--gold);opacity:.7;margin-bottom:.6rem;}
+.ty-title{font-family:var(--fd);font-size:clamp(1.5rem,3vw,2.2rem);font-style:italic;font-weight:300;color:#e8e0cc;margin-bottom:.6rem;}
+.ty-note{font-family:var(--fbody);font-size:.6rem;letter-spacing:.08em;color:rgba(232,224,204,.38);line-height:1.7;max-width:420px;margin:0 auto 2rem;}
+.ty-section-lbl{font-family:var(--fbody);font-size:.5rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:.8rem;}
+
+/* ── TAB PILLS ── */
+.ty-tabs{display:flex;border:1px solid rgba(201,168,76,.18);overflow:hidden;margin-bottom:1.5rem;}
+.ty-tab{
+  flex:1;padding:.75rem .5rem;background:transparent;
+  border:none;border-right:1px solid rgba(201,168,76,.18);
+  font-family:var(--fbody);font-size:.5rem;letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(232,224,204,.35);cursor:pointer;
+  transition:all .2s;
+}
+.ty-tab:last-child{border-right:none;}
+.ty-tab.on{background:rgba(13,79,60,.18);color:var(--gold);}
+.ty-tab:hover:not(.on){color:rgba(232,224,204,.65);}
+
+/* ── PANES ── */
+.ty-pane{display:none;}.ty-pane.show{display:block;}
+
+/* ── MSG BLOCK ── */
+.msg-block{
+  background:rgba(13,79,60,.07);
+  border:1px solid rgba(201,168,76,.12);
+  padding:1rem 1.2rem;
+  font-family:var(--fd);font-size:.85rem;font-style:italic;
+  color:rgba(232,224,204,.6);line-height:1.75;
+  text-align:left;margin-bottom:.8rem;
+}
+.msg-subject{
+  font-family:var(--fbody);font-size:.52rem;letter-spacing:.1em;
+  color:rgba(201,168,76,.55);text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+
+/* ── COPY BTN ── */
+.copy-btn{
+  background:none;border:1px solid rgba(201,168,76,.24);
+  color:rgba(232,224,204,.45);
+  font-family:var(--fbody);font-size:.5rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:.6rem 1.2rem;cursor:pointer;transition:all .25s;
+}
+.copy-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── FOOTER ── */
+.site-footer{
+  background:#000;border-top:1px solid rgba(201,168,76,.1);
+  padding:1.5rem 2rem;text-align:center;
+}
+.site-footer p{font-family:var(--fbody);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,224,204,.18);}
+.site-footer a{color:rgba(201,168,76,.45);text-decoration:none;}
+
+/* ── ERROR ── */
+.field-err{font-family:var(--fbody);font-size:.52rem;color:#c86060;font-style:italic;display:none;}
+
+@media(max-width:600px){
+  html{font-size:17px;}
+  .form-card{padding:1.6rem 1.2rem;}
+  .ig-card{padding:2rem 1.4rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="top-banner">✦ &nbsp; 23rd Parallel &nbsp;·&nbsp; Central Indian Fine Dining &nbsp;·&nbsp; San Jose, California &nbsp; ✦</div>
+
+<header class="site-header">
+  <a href="https://23rdparallelclub.com">
+    <div class="header-script">23rd Parallel</div>
+    <div class="header-sub">Supper Club &nbsp;·&nbsp; San Jose, CA</div>
+  </a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">✦ &nbsp; Guest Testimonial &nbsp; ✦</div>
+  <h1 class="hero-title">How was your evening?</h1>
+  <p class="hero-note">
+    Your words carry the memory of our table forward.<br>
+    We'd be honoured to hear what stayed with you.
+  </p>
+</div>
+
+<div class="odiv">· · · ✦ · · ·</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+  <div id="main-form">
+    <div class="form-card">
+
+      <div class="fg">
+        <label>Your Name</label>
+        <input type="text" id="gName" placeholder="First name, or initials — whatever you prefer">
+      </div>
+
+      <div class="fg">
+        <label>Instagram Handle <span>— optional, so we can credit you</span></label>
+        <input type="text" id="gHandle" placeholder="@yourhandle">
+      </div>
+
+      <div class="fg">
+        <label>Your Experience</label>
+        <textarea id="gText" rows="6" placeholder="Tell us about your evening — a dish that surprised you, a moment at the table, something you're still thinking about..."></textarea>
+        <div class="polish-row">
+          <button type="button" class="btn-outline" id="polishBtn" onclick="polishText()">✦ &nbsp; Polish with AI</button>
+          <span class="polish-lbl" id="polishStatus" style="display:none;">Refining your words…</span>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>A Photo from Your Evening <span>— optional</span></label>
+        <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+          <input type="file" id="photoInput" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;" onchange="handlePhoto(event)">
+          <div class="photo-drop-icon">↑</div>
+          <div class="photo-drop-txt">Tap to add a photo from your evening</div>
+        </div>
+        <img id="photoPreview" class="photo-preview" alt="Your photo">
+      </div>
+
+      <div class="form-actions">
+        <span class="field-err" id="formErr">Please share a few words about your evening.</span>
+        <button class="btn-gold" id="submitBtn" onclick="submitForm()">Send My Testimonial</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- THANK YOU STATE -->
+  <div class="thankyou" id="thankYou">
+    <div class="ty-orn">✦</div>
+    <div class="ty-title">Thank you, <span id="tyName">dear guest</span></div>
+    <p class="ty-note">Your words are a gift to our table — and to every guest who sits down after you.</p>
+
+    <div class="ty-tabs">
+      <button class="ty-tab on" id="tab-ig" onclick="switchPane('ig')">Instagram Card</button>
+      <button class="ty-tab" id="tab-share" onclick="switchPane('share')">Share the Form</button>
+    </div>
+
+    <!-- INSTAGRAM PANE -->
+    <div class="ty-pane show" id="pane-ig">
+      <div class="ty-section-lbl">Your Instagram Card — screenshot &amp; post</div>
+      <div class="ig-card" id="igCard">
+        <!-- Decorative SVG background -->
+        <svg class="ig-svg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(250,250)" fill="none" stroke="#c9a84c" stroke-width="0.5" opacity="1">
+            <circle r="240"/><circle r="190"/><circle r="140"/><circle r="90"/><circle r="45"/>
+            <line x1="0" y1="-240" x2="0" y2="240"/>
+            <line x1="-240" y1="0" x2="240" y2="0"/>
+            <line x1="-170" y1="-170" x2="170" y2="170"/>
+            <line x1="170" y1="-170" x2="-170" y2="170"/>
+            <g fill="#c9a84c" stroke="none">
+              <ellipse rx="6" ry="14" transform="translate(0,-240)"/>
+              <ellipse rx="6" ry="14" transform="translate(0,240)"/>
+              <ellipse rx="14" ry="6" transform="translate(240,0)"/>
+              <ellipse rx="14" ry="6" transform="translate(-240,0)"/>
+              <circle r="5"/>
+            </g>
+          </g>
+        </svg>
+        <img id="igBg" class="ig-bg" alt="">
+        <div class="ig-inner">
+          <div class="ig-eyebrow">✦ &nbsp;&nbsp; 23rd Parallel &nbsp;&nbsp; ✦</div>
+          <div class="ig-line"></div>
+          <div class="ig-quote" id="igQuote">"—"</div>
+          <div class="ig-line"></div>
+          <div class="ig-name" id="igName">—</div>
+          <div class="ig-brand">Supper Club &nbsp;·&nbsp; San Jose, CA</div>
+        </div>
+      </div>
+      <p style="font-family:var(--fbody);font-size:.52rem;letter-spacing:.08em;color:rgba(232,224,204,.3);text-align:center;line-height:1.6;">
+        Screenshot this card and post to Instagram.<br>
+        Tag <a href="https://instagram.com/23rdparallelclub" target="_blank" style="color:rgba(201,168,76,.5);text-decoration:none;">@23rdparallelclub</a> to be featured on our stories. 🙏
+      </p>
+    </div>
+
+    <!-- SHARE PANE -->
+    <div class="ty-pane" id="pane-share">
+      <div class="ty-section-lbl">Share this form with others who attended</div>
+      <div class="msg-block" style="font-family:var(--fbody);font-style:normal;word-break:break-all;font-size:.72rem;">
+        https://23rdparallelclub.com/testimonials.html
+      </div>
+      <button class="copy-btn" id="copyBtn" onclick="copyLink()">Copy link</button>
+
+      <div style="margin-top:1.8rem;">
+        <div class="ty-section-lbl">Ready-to-send text message</div>
+        <div class="msg-block">
+          "Thank you for joining us at 23rd Parallel — it was an honour to share our table with you. If you'd like to leave a few words about your evening: https://23rdparallelclub.com/testimonials.html 🙏"
+        </div>
+      </div>
+
+      <div style="margin-top:1.4rem;">
+        <div class="ty-section-lbl">Email subject</div>
+        <div class="msg-block" style="font-style:normal;">Thank you from 23rd Parallel ✦</div>
+        <div class="ty-section-lbl" style="margin-top:1rem;">Email body</div>
+        <div class="msg-block">
+          Dear [Guest Name],<br><br>
+          It was a pleasure hosting you at our table. Your presence made the evening truly special.<br><br>
+          If you'd like to share a few words about your experience, we'd be honoured:<br>
+          https://23rdparallelclub.com/testimonials.html<br><br>
+          With gratitude,<br>
+          The 23rd Parallel Team
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /thankyou -->
+</div><!-- /form-wrap -->
+
+<footer class="site-footer">
+  <p><a href="https://23rdparallelclub.com">← Back to 23rdparallelclub.com</a> &nbsp;·&nbsp; © 2026 23rd Parallel</p>
+</footer>
+
+<script>
+var photoDataUrl = null;
+
+// ── Photo preview ──
+function handlePhoto(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  var r = new FileReader();
+  r.onload = function(ev){
+    photoDataUrl = ev.target.result;
+    var prev = document.getElementById('photoPreview');
+    prev.src = photoDataUrl;
+    prev.style.display = 'block';
+    document.getElementById('photoDrop').style.display = 'none';
+  };
+  r.readAsDataURL(file);
+}
+
+// ── AI Polish ──
+async function polishText(){
+  var txt = document.getElementById('gText').value.trim();
+  if(!txt) return;
+  var btn = document.getElementById('polishBtn');
+  var status = document.getElementById('polishStatus');
+  btn.disabled = true;
+  status.style.display = 'inline';
+  try{
+    var res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:500,
+        messages:[{role:'user',content:'Lightly refine this guest testimonial for 23rd Parallel, a Central Indian Fine Dining supper club in San Jose, CA. Keep the authentic voice, make it more eloquent and vivid, 2-4 sentences max. Return ONLY the refined text, no quotes around it.\n\nOriginal: "'+txt+'"'}]
+      })
+    });
+    var data = await res.json();
+    document.getElementById('gText').value = data.content[0].text.trim().replace(/^"|"$/g,'');
+  }catch(e){}
+  btn.disabled = false;
+  status.style.display = 'none';
+}
+
+// ── Submit ──
+async function submitForm(){
+  var name = document.getElementById('gName').value.trim() || 'A Guest';
+  var handle = document.getElementById('gHandle').value.trim();
+  var text = document.getElementById('gText').value.trim();
+  var err = document.getElementById('formErr');
+  if(!text){ err.style.display='inline'; return; }
+  err.style.display = 'none';
+
+  var btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  // Send via Web3Forms — replace YOUR_ACCESS_KEY below with key from web3forms.com
+  try{
+    var fd = new FormData();
+    fd.append('access_key','YOUR_ACCESS_KEY');
+    fd.append('subject','New Testimonial from '+name+' — 23rd Parallel');
+    fd.append('from_name','23rd Parallel Guest Form');
+    fd.append('name', name);
+    fd.append('testimonial', text);
+    if(handle) fd.append('instagram', handle);
+    var photoInput = document.getElementById('photoInput');
+    if(photoInput && photoInput.files && photoInput.files[0]){
+      fd.append('attachment', photoInput.files[0]);
+    }
+    await fetch('https://api.web3forms.com/submit',{method:'POST',body:fd});
+  }catch(e){}
+
+  // Populate Instagram card
+  var short = text.length > 200 ? text.slice(0,200).trim()+'…' : text;
+  document.getElementById('igQuote').textContent = '\u201c'+short+'\u201d';
+  document.getElementById('igName').textContent =
+    (name || 'A Valued Guest') + (handle ? ' \u00b7 '+handle : '');
+  if(photoDataUrl){
+    var bg = document.getElementById('igBg');
+    bg.src = photoDataUrl;
+    bg.style.display = 'block';
+  }
+  document.getElementById('tyName').textContent = name !== 'A Guest' ? name : 'dear guest';
+
+  // Show thank you
+  document.getElementById('main-form').style.display = 'none';
+  document.getElementById('thankYou').classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ── Tab switch ──
+function switchPane(pane){
+  ['ig','share'].forEach(function(p){
+    document.getElementById('pane-'+p).classList.toggle('show', p===pane);
+    document.getElementById('tab-'+p).classList.toggle('on', p===pane);
+  });
+}
+
+// ── Copy link ──
+function copyLink(){
+  navigator.clipboard.writeText('https://23rdparallelclub.com/testimonials.html').catch(function(){});
+  var btn = document.getElementById('copyBtn');
+  btn.textContent = '✓ Copied!';
+  setTimeout(function(){ btn.textContent = 'Copy link'; }, 2000);
+}
+</script>
+</body>
+</html>
